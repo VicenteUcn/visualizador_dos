@@ -1,0 +1,1 @@
+web: gunicorn tesis.wsgi:application --log-file -

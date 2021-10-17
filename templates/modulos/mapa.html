@@ -1,0 +1,188 @@
+{% extends '../index.html' %}
+{% load static %}
+
+{% block js_map %}
+<script src="https://unpkg.com/@google/markerclustererplus@4.0.1/dist/markerclustererplus.min.js"></script>
+
+<style>
+  #map {
+  height: 400px;
+  width: 100%;
+}
+</style>
+<script>
+
+function initMap() {
+    const map = new google.maps.Map(document.getElementById("map"), {
+      zoom: 7,
+      center: { lat: -29.95332, lng: -71.33947 },
+      mapId: '24f8d9f92ac4815'
+    });
+    // Create an array of alphabetical characters used to label the markers.
+    const labels = [
+      {% for x in nombres %}
+      '{{x}}',
+      {% endfor %}
+    ];
+    // Add some markers to the map.
+    // Note: The code uses the JavaScript Array.prototype.map() method to
+    // create an array of markers based on a given "locations" array.
+    // The map() method here has nothing to do with the Google Maps API.
+    const markers = locations.map((location, i) => {
+      return new google.maps.Marker({
+        position: location,
+        label: labels[i],
+      });
+    });
+  
+    // Add a marker clusterer to manage the markers.
+    new MarkerClusterer(map, markers, {
+      imagePath:
+        "https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m",
+    });
+  }
+  const locations = [
+  
+  {% for x,y in cord %}
+  { lat:{{x}} , lng:{{y}}},
+{% endfor %}
+  
+  ];
+  
+</script>
+{% endblock %} 
+
+
+{% block contenido%}
+
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0">Mapa</h1>
+          </div>
+          <!-- /.col -->
+  
+          <!-- /.col -->
+        </div>
+        <!-- /.row -->
+      </div>
+      <!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+  
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+       
+        <!-- Main row -->
+        <div class="row">
+          <!-- Left col -->
+         
+          <section class="col-lg-6 connectedSortable">
+            <!-- Custom tabs (Charts with tabs)-->
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">
+                  <i class="fas fa-chart-pie mr-1"></i>
+                  Variables
+                </h3>
+                <div class="card-tools">
+                </div>
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body">
+
+                <!--Formulario-->
+                <form method="post">
+                  {% csrf_token %}
+                  <!--checkbox-->
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="es_urbano" id="exampleRadios1" value="ambos" checked>
+                    <label class="form-check-label" for="exampleRadios1">
+                      Ambos
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="es_urbano" id="exampleRadios2" value="rural">
+                    <label class="form-check-label" for="exampleRadios2">
+                      Rural
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="es_urbano" id="exampleRadios3" value="urbano" >
+                    <label class="form-check-label" for="exampleRadios3">
+                      Urbano
+                    </label>
+                  </div>
+
+
+                   <!--Ciudades-->
+                    <div class="form-group">
+                      <label for="ciudades">Ciudades</label>
+                      <select multiple class="form-control" id="ciudades" name="ciudades">
+                   
+                        {% for ciudad in ciudades %}
+                        <option value="{{ciudad}}">{{ciudad}}</option>
+                       {% endfor %}
+                      </select>
+                    </div>
+                 
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" value="sae" id="sae">
+                      <label class="form-check-label" for="sae">
+                        Datos del sae
+                      </label>
+                    </div>
+                
+                    <input type="submit" class="btn btn-warning" value="enviar">
+                  </form>
+                
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+  
+            <!-- /.card -->
+          </section>
+          <section class="col-lg-6 connectedSortable">
+            <!-- Custom tabs (Charts with tabs)-->
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">
+                  <i class="fas fa-chart-pie mr-1"></i>
+                  Editor de mapa
+                </h3>
+                <div class="card-tools">
+                </div>
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body">
+              
+                <div id="map"></div>
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+  
+            <!-- /.card -->
+          </section>
+  
+        </div>
+        <!-- /.row (main row) -->
+      </div>
+      <!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+  </div>
+
+{% endblock %} 
+
+{% block extra_script %}
+<script
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDsSfNfrXwOssKuBkyOX9YLqKHTByGgoac&callback=initMap&v=weekly"
+      async
+    ></script>
+{% endblock %}

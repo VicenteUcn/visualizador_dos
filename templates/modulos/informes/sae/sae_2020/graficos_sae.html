@@ -1,0 +1,880 @@
+{% extends '../../../../index.html' %} {% block contenido%}
+<div class="content-wrapper">
+  <!-- Content Header (Page header) -->
+  <div class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1 class="m-0">Oferta SAE 2020</h1>
+        </div>
+        <!-- /.col -->
+
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+  </div>
+  <!-- /.content-header -->
+
+  <!-- Main content -->
+  <section class="content">
+    <div class="container-fluid">
+      <!-- Small boxes (Stat box) -->
+      <div class="row">
+        <div class="col-lg-6 col-12">
+          <!-- small box -->
+          <div class="small-box bg-white">
+            <div class="inner">
+              <h3 class="d-lg-none">Cupos totales y <br> vacantes</h3>
+              <h3 class="d-none d-lg-block">Cupos totales y vacantes</h3>
+              
+
+       
+              </p>
+              <canvas
+                id="cupos"
+                style="
+                  min-height: 250px;
+                  height: 250px;
+                  max-height: 250px;
+                  max-width: 100%;
+                "
+              ></canvas>
+            </div>
+          </div>
+        </div>
+
+     
+          <div class="col-lg-6 col-12">
+            <!-- small box -->
+            <div class="small-box bg-white">
+              <div class="inner">
+                <h3 class="d-lg-none">Cupos totales y <br> vacantes</h3>
+                <h3 class="d-none d-lg-block">Cupos totales y vacantes</h3>
+                
+  
+         
+                </p>
+                <canvas
+                  id="cupos_bar"
+                  style="
+                    min-height: 250px;
+                    height: 250px;
+                    max-height: 250px;
+                    max-width: 100%;
+                  "
+                ></canvas>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-12 col-12">
+            <!-- small box -->
+            <div class="small-box bg-white">
+              <div class="inner">
+                <h3 class="d-lg-none">Cupos totales y <br> vacantes por comunas</h3>
+                <h3 class="d-none d-lg-block">Cupos totales y por vacantes por comunas</h3>
+                
+  
+         
+                </p>
+                <canvas
+                  id="cupos_comunas_bar"
+                  style="
+                    min-height: 250px;
+                    height: 250px;
+                    max-height: 250px;
+                    max-width: 100%;
+                  "
+                ></canvas>
+              </div>
+            </div>
+          </div>
+
+        <div class="col-lg-12 col-12">
+          <!-- small box -->
+          <div class="small-box bg-white">
+            <div class="inner">
+              <h3 class="d-lg-none">Capacidad</h3>
+              <h3 class="d-none d-lg-block">Distribución de la capacidad</h3>
+              <p>
+                Porcentaje de las vacantes sobre los cupos totales que dan los
+                establecimientos de la región.<br />
+                <i
+                  >Ejemplo: 50 vacantes sobre 100 cupos da 50% de capacidad del
+                  establecimiento.</i
+                >
+              </p>
+              <canvas
+                id="oferta_total"
+                style="
+                  min-height: 250px;
+                  height: 250px;
+                  max-height: 250px;
+                  max-width: 100%;
+                "
+              ></canvas>
+            </div>
+          </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-6 col-12">
+          <!-- small box -->
+          <div class="small-box bg-white">
+            <div class="inner">
+              <h3>Capacidad urbana</h3>
+              <p>
+                Porcentaje de las vacantes sobre los cupos totales que dan los
+                establecimientos la región en zonas urbanas.
+              </p>
+              <canvas
+                id="oferta_urbana"
+                style="
+                  min-height: 250px;
+                  height: 250px;
+                  max-height: 250px;
+                  max-width: 100%;
+                "
+              ></canvas>
+            </div>
+          </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-6 col-12">
+          <!-- small box -->
+          <div class="small-box bg-white">
+            <div class="inner">
+              <h3>Capacidad rural</h3>
+              <p>
+                Porcentaje de las vacantes sobre los cupos totales que dan los
+                establecimientos la región en zonas rurales.
+              </p>
+              <canvas
+                id="oferta_rural"
+                style="
+                  min-height: 250px;
+                  height: 250px;
+                  max-height: 250px;
+                  max-width: 100%;
+                "
+              ></canvas>
+            </div>
+          </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-12 col-12">
+          <div class="small-box bg-white">
+            <div class="inner">
+              <h3 class="d-lg-none">Capacidad por <br> comunas </h3>
+              <h3 class="d-none d-lg-block">Capacidad por comunas</h3>
+             
+              <canvas
+                id="comunas"
+                style="
+                  min-height: 250px;
+                  height: 250px;
+                  max-height: 250px;
+                  max-width: 100%;
+                "
+              ></canvas>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="col-lg-6 col-12">
+          <div class="small-box bg-white">
+            <div class="inner">
+              <h3 class="d-lg-none">Cupos por <br> dependencia</h3>
+              <h3 class="d-none d-lg-block">Cupos por dependencia</h3>
+            
+             
+              <canvas
+                id="vacantes_dependencia"
+                style="
+                  min-height: 250px;
+                  height: 250px;
+                  max-height: 250px;
+                  max-width: 100%;
+                "
+              ></canvas>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-6 col-12">
+          <div class="small-box bg-white">
+            <div class="inner">
+              <h3 class="d-lg-none">Capacidad por <br> dependencia</h3>
+              <h3 class="d-none d-lg-block">Capacidad por dependencia</h3>
+             
+              <canvas
+                id="capacidad_dependencia"
+                style="
+                  min-height: 250px;
+                  height: 250px;
+                  max-height: 250px;
+                  max-width: 100%;
+                "
+              ></canvas>
+            </div>
+          </div>
+        </div>
+      
+        
+      </div>
+
+      
+      <!-- /.row (main row) -->
+    </div>
+    <!-- /.container-fluid -->
+  </section>
+  <!-- /.content -->
+</div>
+
+{% endblock %} {% block extra_script %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-datalabels/1.0.0/chartjs-plugin-datalabels.min.js" integrity="sha512-XulchVN83YTvsOaBGjLeApZuasKd8F4ZZ28/aMHevKjzrrjG0lor+T4VU248fWYMNki3Eimk+uwdlQS+uZmu8g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+
+       $(function () {
+
+
+         /***
+          * Iniciacion de los graficos
+          * */
+         //
+         //
+         //
+         //
+         //
+         //cupos totales pie
+         var canvas_cupos = $('#cupos').get(0).getContext('2d')
+
+         var data_cupos = {
+          labels  : ['VACANTES','CUPOS TOTALES'],
+          datasets: [
+            {
+              label               : 'Establecimientos totales',
+              backgroundColor     : ['rgba(60,141,188,0.7)' , 'rgba(115, 17, 17, 0.7)', 'RGBA(25,68,107,0.7)' , '#f0a460' , '#007694'],
+              borderColor         : 'rgba(60,141,188,0.8)',
+              pointColor          : '#3b8bba',
+              pointStrokeColor    : 'rgba(60,141,188,1)',
+              pointHighlightFill  : '#fff',
+              pointHighlightStroke: 'rgba(60,141,188,1)',
+              data                :  [49969, 168583]
+            }
+          ]
+        }
+        var options_pie = {
+           maintainAspectRatio :true,
+           responsive : true,
+           legend: {
+             display: true
+           },plugins: {
+        datalabels: {
+            formatter: (value, ctx) => {
+                let sum = 0;
+                let dataArr = ctx.chart.data.datasets[0].data;
+                dataArr.map(data => {
+                    sum += data;
+                });
+                let percentage = (value*100 / sum).toFixed(0)+"%";
+                return percentage;
+            },
+            color: '#fff',
+        }
+    }
+           
+         }
+         var cupo_pie= new Chart(canvas_cupos, {
+            plugins:[ChartDataLabels],
+           type: 'pie',
+           data: data_cupos,
+           options: options_pie
+         })
+         //
+         //
+         //
+         //
+         //
+         //cupos totales bar
+         var canvas_cupos_bar = $('#cupos_bar').get(0).getContext('2d')
+         var options_cupos_bar = {
+           maintainAspectRatio : false,
+           responsive : true,
+           
+           legend: {
+             display: true
+           },
+           scales: {
+             xAxes: [{
+               gridLines : {
+                 display : true,
+               }
+             }],
+             yAxes: [{
+               gridLines : {
+                 display : true,
+               }
+             }]
+           }
+         }
+        
+
+        var cupo_bar= new Chart(canvas_cupos_bar, {
+          type: 'bar',
+          data: data_cupos,
+          options: options_cupos_bar
+        })
+         //
+         //
+         //
+         //
+         //
+         //cupos comunas bar
+         var canvas_cupos_comunas_bar = $('#cupos_comunas_bar').get(0).getContext('2d')
+
+         var data_cupos_comunas= {
+           labels  : [
+               {% for lista in nombre_cupos %}
+               '{{lista }}' ,
+              {% endfor %}
+             ],
+
+           datasets: [
+           {
+               label               : 'Cupo',
+               backgroundColor     : 'rgba(115, 17, 17, 0.7)',
+               borderColor         : 'rgba(115, 17, 17, 1)',
+               pointColor          : 'rgba(210, 214, 222, 1)',
+               pointStrokeColor    : '#c1c7d1',
+               pointHighlightFill  : '#fff',
+               pointHighlightStroke: 'rgba(220,220,220,1)',
+               data                : [
+                   {% for x in cupo_comuna %}
+                   {{x}},
+                   {% endfor %} , 1,2,3
+                 ]
+             }
+           ,
+
+        
+           {
+               label               : 'Vacante',
+               backgroundColor     : 'RGBA(25,68,107,0.7)',
+               borderColor         : '#671173',
+               pointColor          : 'rgba(210, 214, 222, 1)',
+               pointStrokeColor    : '#c1c7d1',
+               pointHighlightFill  : '#fff',
+               pointHighlightStroke: 'rgba(220,220,220,1)',
+               data                : [
+                   {% for x in vacante_comuna %}
+                   {{x}},
+                   {% endfor %}
+                 ]
+             }
+           ]
+           }
+
+          
+
+        
+           var cupo_comuna_bar= new Chart(canvas_cupos_comunas_bar, {
+          
+          type: 'bar',
+          data: data_cupos_comunas,
+          options: options_cupos_bar
+        })
+
+        var options_capacidad_dependencia = {
+          plugins: {
+        datalabels: {
+           
+            color: '#fff',
+        }
+    },
+           maintainAspectRatio : false,
+           responsive : true,
+           legend: {
+             display: true
+           },
+           scales: {
+             xAxes: [{
+               gridLines : {
+                 display : true,
+               }
+             }],
+             yAxes: [{
+               ticks:{
+                min:0
+               },
+               gridLines : {
+                 display : true,
+               }
+             }]
+           }
+         }
+
+        
+         
+          var lineChartOptions_oferta_total = {
+           maintainAspectRatio : false,
+           responsive : true,
+           legend: {
+             display: true
+           },
+           scales: {
+             xAxes: [{
+               gridLines : {
+                 display : true,
+               }
+             }],
+             yAxes: [{
+               gridLines : {
+                 display : true,
+               }
+             }]
+           }
+         }
+
+         var lineChartOptions_oferta_rural = {
+           maintainAspectRatio : false,
+           responsive : true,
+
+           legend: {
+             display: false
+           },
+           scales: {
+             xAxes: [{
+               gridLines : {
+                 display : true,
+               }
+             }],
+             yAxes: [{
+               gridLines : {
+                 display : true,
+               }
+             }]
+           }
+         }
+         var lineChartOptions_oferta_urbana = {
+           maintainAspectRatio : false,
+           responsive : true,
+
+           legend: {
+             display: false
+           },
+           scales: {
+             xAxes: [{
+               gridLines : {
+                 display : true,
+               }
+             }],
+             yAxes: [{
+               gridLines : {
+                 display : true,
+               }
+             }]
+           }
+         }
+
+         
+        
+        
+
+
+         
+        //
+         //
+         //
+         //
+         //
+        //cupos comunas
+        var lineBarCanvas_comunas = $('#comunas').get(0).getContext('2d')
+
+        var lineBarData_comunas= {
+           labels  : [
+               {% for lista in nom_com_rbd %}
+               '{{lista }}' ,
+              {% endfor %}
+             ],
+
+           datasets: [
+           {
+               label               : 'Establecimientos urbanos',
+               backgroundColor     : 'rgba(115, 17, 17, 0.7)',
+               borderColor         : 'rgba(115, 17, 17, 1)',
+               pointColor          : 'rgba(210, 214, 222, 1)',
+               pointStrokeColor    : '#c1c7d1',
+               pointHighlightFill  : '#fff',
+               pointHighlightStroke: 'rgba(220,220,220,1)',
+               data                : [
+                   {% for x in ponderacion_comuna_urbana %}
+                   {{x}},
+                   {% endfor %}
+                 ]
+             }
+           ,
+
+        
+           {
+               label               : 'Establecimientos rurales',
+               backgroundColor     : 'RGBA(25,68,107,0.7)',
+               borderColor         : '#671173',
+               pointColor          : 'rgba(210, 214, 222, 1)',
+               pointStrokeColor    : '#c1c7d1',
+               pointHighlightFill  : '#fff',
+               pointHighlightStroke: 'rgba(220,220,220,1)',
+               data                : [
+                   {% for x in ponderacion_comuna_rural %}
+                   {{x}},
+                   {% endfor %}
+                 ]
+             },
+             {
+              label               : 'Establecimientos totales',
+              backgroundColor     : 'rgba(60,141,188,0.7)',
+              borderColor         : 'rgba(60,141,188,0.8)',
+              pointColor          : '#3b8bba',
+              pointStrokeColor    : 'rgba(60,141,188,1)',
+              pointHighlightFill  : '#fff',
+              pointHighlightStroke: 'rgba(60,141,188,1)',
+               hidden: true,
+               data                : [
+                   {% for x in ponderacion_comunas %}
+                   {{x}},
+                   {% endfor %}
+                 ]
+             }
+           ]
+           }
+
+           var lineBarOptions_comunas = {
+           maintainAspectRatio : false,
+           responsive : true,
+
+           legend: {
+             display: 'bottom'
+           },
+           scales: {
+             xAxes: [{
+               
+               gridLines : {
+                 display : true,
+               }
+             }],
+             yAxes: [{
+              
+               ticks: { min: 0 , max:0.9},
+               gridLines : {
+                 display : true,
+               }
+             }]
+           }
+         }
+
+
+        
+           var lineBar_comunas= new Chart(lineBarCanvas_comunas, {
+           type: 'bar',
+           data: lineBarData_comunas,
+           options: lineBarOptions_comunas
+         })
+
+
+
+        //
+         //
+         //
+         //
+         //
+        //capacidad
+        var lineChartCanvas_oferta_total = $('#oferta_total').get(0).getContext('2d')
+        var lineChartData_oferta_total= {
+           labels  : [
+               {% for lista in eje_y %}
+               ({{lista }}*100)+ '%' ,
+              {% endfor %}
+             ],
+           datasets:[
+             {
+              label               : 'Establecimientos rurales',
+          
+               borderColor         : '#671173',
+               pointColor          : 'rgba(210, 214, 222, 1)',
+               pointStrokeColor    : '#c1c7d1',
+               pointHighlightFill  : '#fff',
+               pointHighlightStroke: 'rgba(220,220,220,1)',
+               hidden: true,
+               data                : [
+                   {% for x in datos_rurales %}
+                   {{x}},
+                   {% endfor %}
+
+                 ]},
+             {
+               label               : 'Establecimientos urbanos',
+              
+               borderColor         : 'rgba(115, 17, 17, 1)',
+               pointColor          : 'rgba(210, 214, 222, 1)',
+               pointStrokeColor    : '#c1c7d1',
+               pointHighlightFill  : '#fff',
+               hidden: true,
+               pointHighlightStroke: 'rgba(220,220,220,1)',
+               data                : [
+                   {% for x in datos_urbanos %}
+                   {{x}},
+                   {% endfor %} 0,0,
+
+                 ]
+             },
+
+             {
+              label               : 'Establecimientos totales',
+              backgroundColor     : 'rgba(60,141,188,0.7)',
+              borderColor         : 'rgba(60,141,188,0.8)',
+              pointColor          : '#3b8bba',
+              pointStrokeColor    : 'rgba(60,141,188,1)',
+              pointHighlightFill  : '#fff',
+              pointHighlightStroke: 'rgba(60,141,188,1)',
+
+               data                : [
+                   {% for x in datos_globales %}
+                   {{x}},
+                   {% endfor %} 0,0,
+
+                 ]
+             },
+
+           ]
+         }
+
+         var lineChart_oferta_total= new Chart(lineChartCanvas_oferta_total, {
+           type: 'line',
+           data: lineChartData_oferta_total,
+           options: lineChartOptions_oferta_total
+         })
+
+         //
+         //
+         //
+         //
+         //
+        //urbana
+        var lineChartCanvas_oferta_urbana = $('#oferta_urbana').get(0).getContext('2d')
+        var lineChartData_oferta_urbana= {
+           labels  : [
+               {% for lista in eje_y %}
+               ({{lista }}*100)+ '%' ,
+              {% endfor %}
+             ],
+           datasets: [
+           {
+               label               : 'Establecimientos urbanos',
+               backgroundColor     : 'rgba(115, 17, 17, 0.7)',
+               borderColor         : 'rgba(115, 17, 17, 1)',
+               pointColor          : 'rgba(210, 214, 222, 1)',
+               pointStrokeColor    : '#c1c7d1',
+               pointHighlightFill  : '#fff',
+               pointHighlightStroke: 'rgba(220,220,220,1)',
+               data                : [
+                   {% for x in datos_urbanos %}
+                   {{x}},
+                   {% endfor %} 0,0,
+
+                 ]
+             }
+           ]
+         }
+
+         var lineChart_oferta_urbana = new Chart(lineChartCanvas_oferta_urbana, {
+           type: 'line',
+           data: lineChartData_oferta_urbana,
+           options: lineChartOptions_oferta_urbana
+         })
+         //
+         //
+         //
+         //
+         //
+        //rural
+        var lineChartCanvas_oferta_rural = $('#oferta_rural').get(0).getContext('2d')
+        var lineChartData_oferta_rural= {
+           labels  :  [
+               {% for lista in eje_y %}
+               ({{lista }}*100)+ '%' ,
+              {% endfor %}
+             ],
+           datasets: [
+           {
+               label               : 'Establecimientos rurales',
+               backgroundColor     : 'RGBA(25,68,107,0.7)',
+               borderColor         : '#671173',
+               pointColor          : 'rgba(210, 214, 222, 1)',
+               pointStrokeColor    : '#c1c7d1',
+               pointHighlightFill  : '#fff',
+               pointHighlightStroke: 'rgba(220,220,220,1)',
+               data                : [
+                   {% for x in datos_rurales %}
+                   {{x}},
+                   {% endfor %}
+
+                 ]
+             }
+           ]
+         }
+
+         var lineChart_oferta_rural = new Chart(lineChartCanvas_oferta_rural, {
+           type: 'line',
+           data: lineChartData_oferta_rural,
+           options: lineChartOptions_oferta_rural
+         })
+          
+         //
+         //
+         //
+         //
+         //
+        //capacidad por comuna
+        
+       
+
+        
+        
+       
+         //
+         //
+         //
+         //
+         //
+        //vacantes por dependencia
+        var canva_vacantes_dependencia = $('#vacantes_dependencia').get(0).getContext('2d')  
+        
+        var data_vacantes_dependencia = {
+          labels  : ['VACANTES' , 'CUPOS TOTALES'],
+          datasets: [
+            {
+              label               : 'ADM. DELEGADA',
+              hidden:true,
+              backgroundColor     : 'rgba(60,141,188,0.7)' ,
+              borderColor         : 'rgba(60,141,188,0.8)',
+              pointColor          : '#3b8bba',
+              pointStrokeColor    : 'rgba(60,141,188,1)',
+              pointHighlightFill  : '#fff',
+              pointHighlightStroke: 'rgba(60,141,188,1)',
+              data                :  [117 , 525]
+            }
+            ,
+            {
+              label               : 'SERVICIO LOCAL',
+              backgroundColor     : 'rgba(115, 17, 17, 0.7)' ,
+              borderColor         : 'rgba(60,141,188,0.8)',
+              pointColor          : '#3b8bba',
+              pointStrokeColor    : 'rgba(60,141,188,1)',
+              pointHighlightFill  : '#fff',
+              pointHighlightStroke: 'rgba(60,141,188,1)',
+              data                :  [5254 , 15990]
+            }
+            ,
+            {
+              label               : 'MUNICIPAL',
+              backgroundColor     :  'RGBA(25,68,107,0.7)' ,
+              borderColor         : 'rgba(60,141,188,0.8)',
+              pointColor          : '#3b8bba',
+              pointStrokeColor    : 'rgba(60,141,188,1)',
+              pointHighlightFill  : '#fff',
+              pointHighlightStroke: 'rgba(60,141,188,1)',
+              data                :  [26753, 64020]
+            }
+            ,
+            {
+              label               : 'P. SUBVENCIONADO',
+              backgroundColor     : '#f0a460' ,
+              borderColor         : 'rgba(60,141,188,0.8)',
+              pointColor          : '#3b8bba',
+              pointStrokeColor    : 'rgba(60,141,188,1)',
+              pointHighlightFill  : '#fff',
+              pointHighlightStroke: 'rgba(60,141,188,1)',
+              data                :  [17845, 88048]
+            }
+          ]
+        }
+         
+        var bar_vacantes_dependencia= new Chart(canva_vacantes_dependencia, {
+          plugins:[ChartDataLabels],
+            type: 'bar',
+            data: data_vacantes_dependencia,
+            options: options_capacidad_dependencia,
+          })
+ 
+        
+         //
+         //
+         //
+         //
+         //capacidad
+         var canva_capacidad_dependencia = $('#capacidad_dependencia').get(0).getContext('2d')  
+        
+        var data_capacidad_dependencia = {
+          labels  : ['CAPACIDAD' ],
+          datasets: [
+            {
+              label               : 'ADM. DELEGADA',
+              backgroundColor     : 'rgba(60,141,188,0.7)' ,
+              borderColor         : 'rgba(60,141,188,0.8)',
+              pointColor          : '#3b8bba',
+              pointStrokeColor    : 'rgba(60,141,188,1)',
+              pointHighlightFill  : '#fff',
+              pointHighlightStroke: 'rgba(60,141,188,1)',
+              data                :  [0.222857]
+            }
+            ,
+            {
+              label               : 'SERVICIO LOCAL',
+              backgroundColor     : 'rgba(115, 17, 17, 0.7)' ,
+              borderColor         : 'rgba(60,141,188,0.8)',
+              pointColor          : '#3b8bba',
+              pointStrokeColor    : 'rgba(60,141,188,1)',
+              pointHighlightFill  : '#fff',
+              pointHighlightStroke: 'rgba(60,141,188,1)',
+              data                :  [0.328580]
+            }
+            ,
+            {
+              label               : 'MUNICIPAL',
+              backgroundColor     :  'RGBA(25,68,107,0.7)' ,
+              borderColor         : 'rgba(60,141,188,0.8)',
+              pointColor          : '#3b8bba',
+              pointStrokeColor    : 'rgba(60,141,188,1)',
+              pointHighlightFill  : '#fff',
+              pointHighlightStroke: 'rgba(60,141,188,1)',
+              data                :  [0.417885]
+            }
+            ,
+            {
+              label               : 'P. SUBVENCIONADO',
+              backgroundColor     : 'rgba(240, 164, 96, 0.7)' ,
+              borderColor         : 'rgba(240, 164, 96, 0.9)' ,
+              pointColor          : '#3b8bba',
+              pointStrokeColor    : 'rgba(60,141,188,1)',
+              pointHighlightFill  : '#fff',
+              pointHighlightStroke: 'rgba(60,141,188,1)',
+              data                :  [0.202674]
+            }
+          ]
+        }
+         
+        var bar_vacantes_dependencia= new Chart(canva_capacidad_dependencia, {
+          plugins:[ChartDataLabels],
+            
+            type: 'bar',
+            data: data_capacidad_dependencia,
+            options: options_capacidad_dependencia,
+          })
+
+         
+
+       })
+</script>
+{% endblock %}

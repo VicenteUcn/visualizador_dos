@@ -1,0 +1,475 @@
+{% extends '../../../../index.html' %} {% block contenido%}
+<div class="content-wrapper">
+  <!-- Content Header (Page header) -->
+  <div class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1 class="m-0">Demanda SAE 2020</h1>
+        </div>
+        <!-- /.col -->
+
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+  </div>
+  <!-- /.content-header -->
+
+  <!-- Main content -->
+  <section class="content">
+    <div class="container-fluid">
+      <!-- Small boxes (Stat box) -->
+      <div class="row">
+       
+        <div class="col-lg-8 col-12">
+          <!-- small box -->
+          <div class="small-box bg-white">
+            <div class="inner">
+              <h3 class="d-lg-none">Dependencia</h3>
+              <h3 class="d-none d-lg-block">Dependencia</h3>
+              
+              </p>
+              <canvas
+                id="demanda_por_dependencia"
+                style="
+                  min-height: 250px;
+                  height: 250px;
+                  max-height: 250px;
+                  max-width: 100%;
+                "
+              ></canvas>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-12">
+          <!-- small box -->
+          <div class="small-box bg-white">
+            <div class="inner">
+              <h3 class="d-lg-none">Dependencia</h3>
+              <h3 class="d-none d-lg-block">Dependencia</h3>
+    
+              <canvas
+                id="demanda_por_dependencia_pie"
+                style="
+                  min-height: 250px;
+                  height: 250px;
+                  max-height: 250px;
+                  max-width: 100%;
+                "
+              ></canvas>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-12 col-12">
+          <!-- small box -->
+          <div class="small-box bg-white">
+            <div class="inner">
+              <h3 class="d-lg-none">Demanda por <br> comuna</h3>
+              <h3 class="d-none d-lg-block">Demanda por comuna</h3>
+    
+              <canvas
+                id="demanda_comuna"
+                style="
+                  min-height: 250px;
+                  height: 250px;
+                  max-height: 250px;
+                  max-width: 100%;
+                "
+              ></canvas>
+            </div>
+          </div>
+        </div>
+
+        
+        
+        <!-- ./col -->
+        <div class="col-lg-6 col-12">
+          <!-- small box -->
+          <div class="small-box bg-white">
+            <div class="inner">
+              <h3>Demanda b</h3>
+              <p>
+                Porcentaje de las vacantes sobre los cupos totales que dan los
+                establecimientos la región en zonas urbanas.
+              </p>
+              <canvas
+                id="demanda_comuna_b"
+                style="
+                  min-height: 250px;
+                  height: 250px;
+                  max-height: 250px;
+                  max-width: 100%;
+                "
+              ></canvas>
+            </div>
+          </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-6 col-12">
+          <!-- small box -->
+          <div class="small-box bg-white">
+            <div class="inner">
+              <h3>Demanda a</h3>
+              <p>
+                Porcentaje de las vacantes sobre los cupos totales que dan los
+                establecimientos la región en zonas rurales.
+              </p>
+              <canvas
+                id="demanda_comuna_a"
+                style="
+                  min-height: 250px;
+                  height: 250px;
+                  max-height: 250px;
+                  max-width: 100%;
+                "
+              ></canvas>
+            </div>
+          </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-12 col-12">
+          <div class="small-box bg-white">
+            <div class="inner">
+              <h3>Oferta por comunas</h3>
+             
+              <canvas
+                id="comunas"
+                style="
+                  min-height: 250px;
+                  height: 250px;
+                  max-height: 250px;
+                  max-width: 100%;
+                "
+              ></canvas>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-6 col-12">
+          <div class="small-box bg-white">
+            <div class="inner">
+              <h3>Top</h3>
+             
+              <canvas
+                id="top_menos_vacantes"
+                style="
+                  min-height: 250px;
+                  height: 250px;
+                  max-height: 250px;
+                  max-width: 100%;
+                "
+              ></canvas>
+            </div>
+          </div>
+        </div>
+      
+        
+      </div>
+
+      
+      <!-- /.row (main row) -->
+    </div>
+    <!-- /.container-fluid -->
+  </section>
+  <!-- /.content -->
+</div>
+
+{% endblock %} {% block extra_script %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-datalabels/1.0.0/chartjs-plugin-datalabels.min.js" integrity="sha512-XulchVN83YTvsOaBGjLeApZuasKd8F4ZZ28/aMHevKjzrrjG0lor+T4VU248fWYMNki3Eimk+uwdlQS+uZmu8g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<script>
+
+       $(function () {
+
+
+         /***
+          * Iniciacion de los graficos
+          * */
+         var BarCanvas_demanda_comuna = $('#demanda_comuna').get(0).getContext('2d')
+         var BarCanvas_demanda_comuna_b = $('#demanda_comuna_b').get(0).getContext('2d')
+         var BarCanvas_demanda_comuna_a = $('#demanda_comuna_a').get(0).getContext('2d')
+         var canvas_demanda_por_dependencia = $('#demanda_por_dependencia').get(0).getContext('2d')
+         var canvas_demanda_por_dependencia_pie = $('#demanda_por_dependencia_pie').get(0).getContext('2d')
+         
+
+         /***
+          * Data
+          * */
+         var BarData_demanda_comuna= {
+           labels  : [
+               {% for lista in comunas %}
+               '{{lista}}' ,
+              {% endfor %}
+             ],
+           datasets:[
+             {
+                label               : 'Demanda',
+                backgroundColor     : 'rgba(60,141,188,0.7)',
+              borderColor         : 'rgba(60,141,188,0.8)',
+              pointColor          : '#3b8bba',
+              pointStrokeColor    : 'rgba(60,141,188,1)',
+              pointHighlightFill  : '#fff',
+              pointHighlightStroke: 'rgba(60,141,188,1)',
+              
+               data                : [
+                   {% for x in demanda %}
+                   {{x}},
+                   {% endfor %}
+
+                 ]}
+
+           ]
+         }
+
+         var BarData_demanda_comuna_b= {
+           labels  : [
+               {% for lista in comunas_b %}
+               '{{lista}}' ,
+              {% endfor %}
+             ],
+           datasets:[
+             {
+                label               : 'Demanda',
+              backgroundColor     : 'rgba(60,141,188,0.7)',
+              borderColor         : 'rgba(60,141,188,0.8)',
+              pointColor          : '#3b8bba',
+              pointStrokeColor    : 'rgba(60,141,188,1)',
+              pointHighlightFill  : '#fff',
+              pointHighlightStroke: 'rgba(60,141,188,1)',
+              
+               data                : [
+                   {% for x in demanda_b %}
+                   {{x}},
+                   {% endfor %}
+
+                 ]}
+
+           ]
+         }
+
+         var BarData_demanda_comuna_a= {
+           labels  : [
+               {% for lista in comunas_a %}
+               '{{lista}}' ,
+              {% endfor %}
+             ],
+           datasets:[
+             {
+                label               : 'Demanda',
+              backgroundColor     : 'rgba(60,141,188,0.7)',
+              borderColor         : 'rgba(60,141,188,0.8)',
+              pointColor          : '#3b8bba',
+              pointStrokeColor    : 'rgba(60,141,188,1)',
+              pointHighlightFill  : '#fff',
+              pointHighlightStroke: 'rgba(60,141,188,1)',
+              
+               data                : [
+                   {% for x in demanda_a %}
+                   {{x}},
+                   {% endfor %}
+
+                 ]}
+
+           ]
+         }
+
+         var data_demanda_por_dependencia= {
+           labels  : ['Inscripciones'],
+           datasets:[
+             {
+                label               : ['ADM. DELEGADA' ],
+                backgroundColor     : 'rgba(60,141,188,0.7)',
+              borderColor         : 'rgba(60,141,188,0.8)',
+              pointColor          : '#3b8bba',
+              pointStrokeColor    : 'rgba(60,141,188,1)',
+              pointHighlightFill  : '#fff',
+              pointHighlightStroke: 'rgba(60,141,188,1)',
+              
+               data                : [443 ]},
+               {
+                label               : [ 'SERVICIO LOCAL'],
+                backgroundColor     : 'rgba(115, 17, 17, 0.7)',
+              borderColor         : 'rgba(60,141,188,0.8)',
+              pointColor          : '#3b8bba',
+              pointStrokeColor    : 'rgba(60,141,188,1)',
+              pointHighlightFill  : '#fff',
+              pointHighlightStroke: 'rgba(60,141,188,1)',
+              
+               data                : [ 4686]},
+               {
+                label               : [ 'MUNICIPAL' ],
+                backgroundColor     : 'RGBA(25,68,107,0.7)' ,
+              borderColor         : 'rgba(60,141,188,0.8)',
+              pointColor          : '#3b8bba',
+              pointStrokeColor    : 'rgba(60,141,188,1)',
+              pointHighlightFill  : '#fff',
+              pointHighlightStroke: 'rgba(60,141,188,1)',
+              
+               data                : [ 14362]} ,
+               {
+                label               : [ 'P. SUBVENCIONADO' ],
+                backgroundColor     :  '#f0a460',
+              borderColor         : 'rgba(60,141,188,0.8)',
+              pointColor          : '#3b8bba',
+              pointStrokeColor    : 'rgba(60,141,188,1)',
+              pointHighlightFill  : '#fff',
+              pointHighlightStroke: 'rgba(60,141,188,1)',
+              
+               data                : [ 60122 ]}
+
+           ]
+         }
+
+         var data_demanda_por_dependencia_pie= {
+           labels  : ['ADM. DELEGADA','SERVICIO LOCAL','MUNICIPAL','P. SUBVENCIONADO'],
+           datasets:[
+             {
+                label               : [ 'Inscripciones'],
+                backgroundColor     : ['rgba(60,141,188,0.7)' , 'rgba(115, 17, 17, 0.7)' , 'RGBA(25,68,107,0.7)' , 'rgba(240, 164, 96, 0.7)' ],
+              borderColor         : 'rgba(60,141,188,0.8)',
+              pointColor          : '#3b8bba',
+              pointStrokeColor    : 'rgba(60,141,188,1)',
+              pointHighlightFill  : '#fff',
+              pointHighlightStroke: 'rgba(60,141,188,1)',
+              
+               data                : [443,4686,14362,60122 ]}
+
+           ]
+         }
+         
+
+          /***
+          * opciones
+          * */
+          var BarOptions_demanda_comuna = {
+           maintainAspectRatio : false,
+           responsive : true,
+           legend: {
+             display: true
+           },
+           scales: {
+             xAxes: [{
+               gridLines : {
+                 display : true,
+               }
+             }],
+             yAxes: [{
+               gridLines : {
+                 display : true,
+               }
+             }]
+           }
+         }
+
+         var BarOptions_demanda_comuna_a = {
+           maintainAspectRatio : false,
+           responsive : true,
+           legend: {
+             display: true
+           },
+           scales: {
+               
+             xAxes: [{
+               gridLines : {
+                 display : true,
+               }
+             }],
+             yAxes: [{
+                ticks: {
+                                min:10000
+                            },
+               gridLines : {
+                 display : true,
+               }
+             }]
+           }
+         }
+
+         var PieOptions_demanda_comuna = {
+           maintainAspectRatio : false,
+           responsive : true,
+           legend: {
+             display: true
+           },plugins: {
+        datalabels: {
+            formatter: (value, ctx) => {
+                let sum = 0;
+                let dataArr = ctx.chart.data.datasets[0].data;
+                dataArr.map(data => {
+                    sum += data;
+                });
+                let percentage = (value*100 / sum).toFixed(0)+"%";
+                return percentage;
+            },
+            color: '#fff',
+        }
+    }
+           
+         }
+
+         var options_pie = {
+           maintainAspectRatio : false,
+           responsive : true,
+           legend: {
+             display: true
+           },
+           plugins: {
+        datalabels: {
+            formatter: (value, ctx) => {
+                let sum = 0;
+                let dataArr = ctx.chart.data.datasets[0].data;
+                dataArr.map(data => {
+                    sum += data;
+                });
+                let percentage = (value*100 / sum).toFixed(2)+"%";
+                return percentage;
+            },
+            color: '#fff',
+        }
+    }
+           
+         }
+         
+  //-------------
+         //- Iniciar los graficos
+         //-------------
+         var pie_demanda_dependencia= new Chart(canvas_demanda_por_dependencia_pie, {
+            plugins:[ChartDataLabels],
+           type: 'pie',
+           data: data_demanda_por_dependencia_pie,
+           options: options_pie
+         })
+
+         var bar_demanda_dependencia= new Chart(canvas_demanda_por_dependencia, {
+           type: 'bar',
+           data: data_demanda_por_dependencia,
+           options: BarOptions_demanda_comuna
+         })
+
+         var bar_demanda_comuna= new Chart(BarCanvas_demanda_comuna, {
+          plugins:[ChartDataLabels],
+           type: 'bar',
+           data: BarData_demanda_comuna,
+           options: PieOptions_demanda_comuna
+         })
+
+         var bar_demanda_comuna_b= new Chart(BarCanvas_demanda_comuna_b, {
+          plugins:[ChartDataLabels],
+           type: 'pie',
+           data: BarData_demanda_comuna_b,
+           options: options_pie
+         })
+
+         var bar_demanda_comuna_a= new Chart(BarCanvas_demanda_comuna_a, {
+          plugins:[ChartDataLabels],
+           type: 'pie',
+           data: BarData_demanda_comuna_a,
+           options: options_pie
+         })
+
+
+       })
+</script>
+{% endblock %}

@@ -1,0 +1,320 @@
+{% extends '../../../index.html' %} 
+{% block contenido%}
+<div class="content-wrapper">
+  <!-- Content Header (Page header) -->
+  <div class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1 class="m-0">Directorio 2020</h1>
+        </div>
+        <!-- /.col -->
+
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+  </div>
+  <!-- /.content-header -->
+
+  <!-- Main content -->
+  <section class="content">
+    <div class="container-fluid">
+      <!-- Small boxes (Stat box) -->
+      <div class="row">
+      
+
+        <div class="col-lg-6 col-12">
+          <!-- small box -->
+          <div class="small-box bg-white">
+            <div class="inner">
+              <h3>Estado de establecimientos</h3>
+              <canvas id="estado_establecimientos" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+            </div>
+          </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-6 col-12">
+          <!-- small box -->
+          <div class="small-box bg-white">
+            <div class="inner">
+              <h3>Estado</h3>
+              <canvas id="estado_establecimientos_pie" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+            </div>
+          </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-6 col-12">
+            <!-- small box -->
+            <div class="small-box bg-white">
+              <div class="inner">
+                <h3>Dependencia</h3>
+                <canvas id="dependencia" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+              </div>
+            </div>
+          </div>
+          <!-- ./col -->
+          <div class="col-lg-6 col-12">
+            <!-- small box -->
+            <div class="small-box bg-white">
+              <div class="inner">
+                <h3>Dependencia</h3>
+               
+                <canvas id="dependencia_pie" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+              </div>
+            </div>
+            </div>
+
+            <div class="col-lg-8 col-12">
+              <!-- small box -->
+              <div class="small-box bg-white">
+                <div class="inner">
+                  <h3>Urbanidad por comuna</h3>
+                  <canvas id="urbanidad" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                </div>
+              </div>
+            </div>
+            <!-- ./col -->
+            <div class="col-lg-4 col-12">
+              <!-- small box -->
+              <div class="small-box bg-white">
+                <div class="inner">
+                  <h3>Urbanidad</h3>
+                  <canvas id="urbanidad_pie" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                </div>
+              </div>
+            </div>
+        
+      </div>
+
+    </div>
+    <!-- /.container-fluid -->
+  </section>
+  <!-- /.content -->
+</div>
+
+{% endblock %} {% block extra_script %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-datalabels/1.0.0/chartjs-plugin-datalabels.min.js" integrity="sha512-XulchVN83YTvsOaBGjLeApZuasKd8F4ZZ28/aMHevKjzrrjG0lor+T4VU248fWYMNki3Eimk+uwdlQS+uZmu8g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+      
+      $(function () {
+
+        // iniciar canvas
+        var canvas_estado_establecimientos = $('#estado_establecimientos').get(0).getContext('2d')
+        var canvas_estado_establecimientos_pie = $('#estado_establecimientos_pie').get(0).getContext('2d')
+
+        var canvas_dependencia = $('#dependencia').get(0).getContext('2d')
+        var canvas_dependencia_pie = $('#dependencia_pie').get(0).getContext('2d')
+        
+        var canvas_urbanidad = $('#urbanidad').get(0).getContext('2d')
+        var canvas_urbanidad_pie = $('#urbanidad_pie').get(0).getContext('2d')
+        
+        
+        var data_1 = {
+          labels  : ['ACTIVO'  , 'EN RECESO' , 'INACTIVO'],
+          datasets: [
+            {
+              label               : 'Establecimientos totales',
+              backgroundColor     : ['rgba(60,141,188,0.7)' , 'rgba(115, 17, 17, 0.7)', 'RGBA(25,68,107,0.7)' ],
+              borderColor         : 'rgba(60,141,188,0.8)',
+              pointColor          : '#3b8bba',
+              pointStrokeColor    : 'rgba(60,141,188,1)',
+              pointHighlightFill  : '#fff',
+              pointHighlightStroke: 'rgba(60,141,188,1)',
+              data                : [785,35,181]
+            }
+          ]
+        }
+    
+        var data_dependencia = {
+          labels  : ['MUNICIPAL', 'P. SUBVENCIONADO', 'P. PAGADO', 'ADM. DELEGADA', 'SERVICIO LOCAL'],
+          datasets: [
+            {
+              label               : 'Establecimientos totales',
+              backgroundColor     : ['RGBA(25,68,107,0.7)' , 'rgba(240, 164, 96, 0.7)', '#f0a460', 'rgba(60,141,188,0.7)' , 'rgba(115, 17, 17, 0.7)'],
+              borderColor         : 'rgba(60,141,188,0.8)',
+              pointColor          : '#3b8bba',
+              pointStrokeColor    : 'rgba(60,141,188,1)',
+              pointHighlightFill  : '#fff',
+              pointHighlightStroke: 'rgba(60,141,188,1)',
+              data                :  [421, 436, 91 , 1,  52]
+            }
+          ]
+        }
+
+        var data_urbanidad_pie = {
+          labels  : ['URBANO','RURAL'],
+          datasets: [
+            {
+              label               : 'Establecimientos totales',
+              backgroundColor     : ['rgba(115, 17, 17, 0.7)', 'RGBA(25,68,107,0.7)' ],
+              borderColor         : 'rgba(60,141,188,0.8)',
+              pointColor          : '#3b8bba',
+              pointStrokeColor    : 'rgba(60,141,188,1)',
+              pointHighlightFill  : '#fff',
+              pointHighlightStroke: 'rgba(60,141,188,1)',
+              data                :  [598, 403]
+            }
+          ]
+        }
+
+        var data_urbanidad = {
+          labels  : [
+              {% for comuna in comunas %}
+              '{{comuna}}', 
+              {% endfor %}
+              ],
+          datasets: [
+            {
+              label               : 'Establecimientos urbanos',
+              backgroundColor     : 'rgba(115, 17, 17, 0.7)',
+              borderColor         : 'rgba(60,141,188,0.8)',
+              pointColor          : '#3b8bba',
+              pointStrokeColor    : 'rgba(60,141,188,1)',
+              pointHighlightFill  : '#fff',
+              pointHighlightStroke: 'rgba(60,141,188,1)',
+              data                :  [
+                  
+              {% for dato in urbano %}
+              {{dato}}, 
+              {% endfor %}
+                  ]
+            },
+            {
+              label               : 'Establecimientos rurales',
+              backgroundColor     :  'RGBA(25,68,107,0.7)' ,
+              borderColor         : 'rgba(60,141,188,0.8)',
+              pointColor          : '#3b8bba',
+              pointStrokeColor    : 'rgba(60,141,188,1)',
+              pointHighlightFill  : '#fff',
+              pointHighlightStroke: 'rgba(60,141,188,1)',
+              data                :  [
+                  
+              {% for dato in rurales %}
+              {{dato}}, 
+              {% endfor %}
+                  ]
+            }
+          ]
+        }
+
+       
+        
+        var options = {
+           maintainAspectRatio : false,
+           responsive : true,
+           legend: {
+             display: false
+           },
+           scales: {
+             xAxes: [{
+               gridLines : {
+                 display : true,
+               }
+             }],
+             yAxes: [{
+               gridLines : {
+                 display : true,
+               }
+             }]
+           }
+         }
+
+         var options_urbanidad = {
+           plugins:{
+            datalabels:{
+              color:'#fff'
+            }
+           },
+           maintainAspectRatio : false,
+           responsive : true,
+           legend: {
+             display: true
+           },
+           scales: {
+             xAxes: [{
+                stacked: true,
+               gridLines : {
+                 display : true,
+               }
+             }],
+             yAxes: [{
+                stacked: true,
+               gridLines : {
+                 display : true,
+               }
+             }]
+           }
+         }
+
+         var options_pie = {
+           maintainAspectRatio : false,
+           responsive : true,
+           legend: {
+             display: true
+           },
+           plugins: {
+        datalabels: {
+            formatter: (value, ctx) => {
+                let sum = 0;
+                let dataArr = ctx.chart.data.datasets[0].data;
+                dataArr.map(data => {
+                    sum += data;
+                });
+                let percentage = (value*100 / sum).toFixed(1)+"%";
+                return percentage;
+            },
+            color: '#fff',
+        }
+    }
+           
+         }
+
+
+         
+       
+         var line_evolucion_total= new Chart(canvas_estado_establecimientos, {
+           type: 'bar',
+           data: data_1,
+           options: options
+         })
+
+         var line_evolucion_activos= new Chart(canvas_estado_establecimientos_pie, {
+            plugins:[ChartDataLabels],
+           type: 'pie',
+           data: data_1,
+           options: options_pie
+         })
+
+         var line_dependencia= new Chart(canvas_dependencia, {
+           type: 'bar',
+           data: data_dependencia,
+           options: options
+         })
+
+         var line_dependencia_pie= new Chart(canvas_dependencia_pie, {
+            plugins:[ChartDataLabels],
+           type: 'pie',
+           data: data_dependencia,
+           options: options_pie
+         })
+
+         var line_urbanidad= new Chart(canvas_urbanidad, {
+          plugins:[ChartDataLabels],
+           type: 'bar',
+           data: data_urbanidad,
+           options: options_urbanidad
+         })
+
+         var line_urbanidad_pie= new Chart(canvas_urbanidad_pie, {
+            plugins:[ChartDataLabels],
+           type: 'pie',
+           data: data_urbanidad_pie,
+           options: options_pie
+         })
+         
+        
+      })
+    </script>
+{% endblock %}

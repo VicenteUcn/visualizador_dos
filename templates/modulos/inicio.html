@@ -1,0 +1,488 @@
+{% extends '../index.html' %} {% block js_map %}
+
+{% endblock %}
+{% block style_map %}
+<script src="https://unpkg.com/@google/markerclustererplus@4.0.1/dist/markerclustererplus.min.js"></script>
+
+<style>
+  #map {
+  height: 400px;
+  width: 100%;
+}
+</style>
+<script>
+
+function initMap() {
+    const map = new google.maps.Map(document.getElementById("map"), {
+      zoom: 11,
+      center: { lat: -29.90453, lng: -71.24894 },
+      mapId: '24f8d9f92ac4815'
+    });
+    // Create an array of alphabetical characters used to label the markers.
+    const labels = [
+      {% for x in nombres %}
+      '{{x}}',
+      {% endfor %}
+    ];
+    // Add some markers to the map.
+    // Note: The code uses the JavaScript Array.prototype.map() method to
+    // create an array of markers based on a given "locations" array.
+    // The map() method here has nothing to do with the Google Maps API.
+    const markers = locations.map((location, i) => {
+      return new google.maps.Marker({
+        position: location,
+        label: labels[i],
+      });
+    });
+  
+    // Add a marker clusterer to manage the markers.
+    new MarkerClusterer(map, markers, {
+      imagePath:
+        "https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m",
+    });
+  }
+  const locations = [
+  
+  {% for x,y in cord %}
+  { lat:{{x}} , lng:{{y}}},
+{% endfor %}
+  
+  ];
+  
+</script>
+{% endblock %}
+{% block contenido%}
+<div class="content-wrapper">
+  <!-- Content Header (Page header) -->
+  <div class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1 class="m-0">Dashboard</h1>
+        </div>
+        <!-- /.col -->
+        
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+  </div>
+  <!-- /.content-header -->
+
+  <!-- Main content -->
+  <section class="content">
+    <div class="container-fluid">
+      <!-- Small boxes (Stat box) -->
+      <div class="row">
+
+
+       
+
+        <div class="col-md-3 col-sm-6 col-12">
+          <div class="info-box bg-info">
+            <span class="info-box-icon"><i class="fa fa-users"></i></span>
+
+            <div class="info-box-content">
+              <span class="info-box-text">Postulaciones</span>
+              <span class="info-box-number">79,613</span>
+
+              <div class="progress">
+                <div class="progress-bar bg-dark" style="width: 24%"></div>
+              </div>
+              <span class="progress-description">
+                24,45% menos
+              </span>
+            </div>
+            <a href="{% url 'sae_demanda' %}" class="info-box-footer">
+              <i class="fas fa-arrow-circle-right"></i>
+           </a>
+            <!-- /.info-box-content -->
+          </div>
+          <!-- /.info-box -->
+        </div>
+      
+        <div class="col-md-3 col-sm-6 col-12">
+          <div class="info-box bg-info">
+            <span class="info-box-icon"><i class="fa fa-building"></i></span>
+
+            <div class="info-box-content">
+              <span class="info-box-text">Establecimientos</span>
+              <span class="info-box-number">1,001</span>
+
+              <div class="progress">
+                <div class="progress-bar" style="width: 10%"></div>
+              </div>
+              <span class="progress-description">
+                1% Incremento
+              </span>
+            </div>
+            <a href="{% url 'grafico' %}" class="info-box-footer">
+              <i class="fas fa-arrow-circle-right"></i>
+           </a>
+            <!-- /.info-box-content -->
+          </div>
+          <!-- /.info-box -->
+        </div>
+
+
+      
+
+        <div class="col-md-3 col-sm-6 col-12">
+          <div class="info-box bg-info">
+            <span class="info-box-icon"><i class="fa fa-graduation-cap"></i></span>
+
+            <div class="info-box-content">
+              <span class="info-box-text">Cupos</span>
+              <span class="info-box-number">168,583</span>
+
+              <div class="progress ">
+                <div class="progress-bar" style="width: 23%"></div>
+              </div>
+              <span class="progress-description">
+                49,969 vacantes
+              </span>
+            </div>
+
+            <a href="{% url 'sae' %}" class="info-box-footer">
+               <i class="fas fa-arrow-circle-right"></i>
+            </a>
+            <!-- /.info-box-content -->
+          </div>
+          <!-- /.info-box -->
+        </div>
+
+        <div class="col-md-3 col-sm-6 col-12">
+          <div class="info-box bg-info">
+            <span class="info-box-icon"><i class="fa fa-chalkboard"></i></span>
+
+            <div class="info-box-content">
+              <span class="info-box-text">Demanda</span>
+              <div class="progress">
+                <div class="progress-bar" style="width: 80%"></div>
+              </div>
+              <span class="progress-description">
+                80% Urbanos
+              </span>
+
+              <div class="progress ">
+                <div class="progress-bar" style="width: 20%"></div>
+              </div>
+              <span class="progress-description">
+                20% Rurales
+              </span>
+            </div>
+            <!-- /.info-box-content -->
+            <a href="{% url 'sae_demanda' %}" class="info-box-footer">
+              <i class="fas fa-arrow-circle-right"></i>
+           </a>
+          </div>
+          <!-- /.info-box -->
+          
+        </div>
+
+        <div class="col-lg-6 col-12">
+          <!-- small box -->
+          <div class="small-box bg-white">
+            <div class="inner">
+              <h3>Estab. totales</h3>
+              <canvas id="totales" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+            </div>
+
+            <a href="{% url 'grafico' %}" class="small-box-footer"
+              >Ver más <i class="fas fa-arrow-circle-right"></i
+            ></a>
+          </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-6 col-12">
+          <!-- small box -->
+          <div class="small-box bg-white">
+            <div class="inner">
+              <h3>Estab. activos</h3>
+              <canvas id="activos" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+            </div>
+
+            <a href="{% url 'grafico' %}" class="small-box-footer"
+              >Ver más <i class="fas fa-arrow-circle-right"></i
+            ></a>
+          </div>
+        </div>
+        <!-- ./col -->
+        
+        <!-- ./col -->
+        <div class="col-lg-8 col-12">
+          <!-- small box -->
+          <div class="small-box bg-white">
+            <div class="inner">
+              <h3 class="d-lg-none">Distribución de <br> vacantes</h3>
+              <h3 class="d-none d-lg-block">Distribución de vacantes</h3>
+              <p>Cantidad de establecimientos distribuidos por su proporción de vacantes.<br>
+              <i>Ej.: Un establecimiento con 50 vacantes y 100 cupos totales da una proporción de vacantes del 50%.</i></p>
+              <canvas id="oferta_total" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+            </div>
+            <a href="{% url 'sae' %}" class="small-box-footer"
+              >Oferta SAE 2020 <i class="fas fa-arrow-circle-right"></i
+            ></a>
+          </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-4 col-12">
+          <!-- small box -->
+          <div class="small-box bg-white">
+            <div class="inner">
+              <h3>Datos en el mapa</h3>
+              <p>
+                Estos colegios presentan una muy baja demanda actualmente no
+              completando sus cupos totales segun el sistema de admisión
+              escolar.
+              </p> 
+              <div id="map"></div>
+            </div>
+            <a href="{% url 'mapa' %}" class="small-box-footer"
+              >Ver más <i class="fas fa-arrow-circle-right"></i
+            ></a>
+          </div>
+        </div>
+      </div>
+
+      <!-- /.row (main row) -->
+    </div>
+    <!-- /.container-fluid -->
+  </section>
+  <!-- /.content -->
+  
+
+
+</div>
+
+{% endblock %} {% block extra_script %}
+<script
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDsSfNfrXwOssKuBkyOX9YLqKHTByGgoac&callback=initMap&v=weekly"
+      async
+    ></script>
+    <script>
+      
+      $(function () {
+        //tomar el div (contexto)
+        var lineChartCanvas_totales = $('#totales').get(0).getContext('2d')
+       
+        var lineChartCanvas_activos = $('#activos').get(0).getContext('2d')
+        var lineChartCanvas_oferta_total = $('#oferta_total').get(0).getContext('2d')
+
+        //Guardar los datos
+        var lineChartData_oferta_total={
+           labels  : [ 0,
+               {% for lista in eje_y %}
+               ({{lista }}*100)+ '%' ,
+              {% endfor %}
+             ],
+           datasets:[
+             {
+              label               : 'Establecimientos rurales',
+          
+               borderColor         : '#671173',
+               pointColor          : 'rgba(210, 214, 222, 1)',
+               pointStrokeColor    : '#c1c7d1',
+               pointHighlightFill  : '#fff',
+               pointHighlightStroke: 'rgba(220,220,220,1)',
+              
+               data                : [0,
+                   {% for x in datos_rurales %}
+                   {{x}},
+                   {% endfor %}
+
+                 ]},
+             {
+               label               : 'Establecimientos urbanos',
+              
+               borderColor         : 'rgba(115, 17, 17, 1)',
+               pointColor          : 'rgba(210, 214, 222, 1)',
+               pointStrokeColor    : '#c1c7d1',
+               pointHighlightFill  : '#fff',
+              
+               pointHighlightStroke: 'rgba(220,220,220,1)',
+               data                : [0,
+                   {% for x in datos_urbanos %}
+                   {{x}},
+                   {% endfor %} 0,0
+
+                 ]
+             },
+
+             {
+              label               : 'Establecimientos totales',
+              backgroundColor     : 'rgba(60,141,188,0.7)',
+              borderColor         : 'rgba(60,141,188,0.8)',
+              pointColor          : '#3b8bba',
+              pointStrokeColor    : 'rgba(60,141,188,1)',
+              pointHighlightFill  : '#fff',
+              pointHighlightStroke: 'rgba(60,141,188,1)',
+             
+               data                : [0,
+                   {% for x in datos_globales %}
+                   {{x}},
+                   {% endfor %} 
+
+                 ]
+             },
+
+           ]
+         }
+    
+
+
+        
+        
+        var lineChartData_evolucion= {
+          labels  : ['2016', '2017', '2018', '2019', '2020'],
+          datasets: [
+          {
+              label               : 'Establecimientos totales',
+              backgroundColor     : 'rgba(60,141,188,0.7)',
+              borderColor         : 'rgba(60,141,188,1)',
+              pointColor          : '#3b8bba',
+              pointStrokeColor    : 'rgba(60,141,188,1)',
+              pointHighlightFill  : '#fff',
+              pointHighlightStroke: 'rgba(60,141,188,1)',
+              data                : [975,978,979,992,1001]
+            }
+          ,
+          {
+              label               : 'Establecimientos inactivos',
+              backgroundColor     : 'rgba(115, 17, 17, 0.7)',
+              borderColor         : 'rgba(115, 17, 17, 1)',
+              pointColor          : 'rgba(210, 214, 222, 1)',
+              pointStrokeColor    : '#c1c7d1',
+              pointHighlightFill  : '#fff',
+              hidden:true,
+              pointHighlightStroke: 'rgba(220,220,220,1)',
+              data                : [158,161,166,179,181]
+            }
+          ,
+        {
+              label               : 'Establecimientos activos',
+              backgroundColor     : 'RGBA(25,68,107,0.7)',
+              borderColor         : '#671173',
+              pointColor          : 'rgba(210, 214, 222, 1)',
+              pointStrokeColor    : '#c1c7d1',
+              pointHighlightFill  : '#fff',
+              hidden:true,
+              pointHighlightStroke: 'rgba(220,220,220,1)',
+              data                : [794,790,789,789,785],
+            
+            }
+          ]
+          }
+
+          var lineChartData_evolucion_activos= {
+          labels  : ['2016', '2017', '2018', '2019', '2020'],
+          datasets: [
+          {
+              label               : 'Establecimientos totales',
+              backgroundColor     : 'rgba(60,141,188,0.7)',
+              borderColor         : 'rgba(60,141,188,1)',
+              pointColor          : '#3b8bba',
+              pointStrokeColor    : 'rgba(60,141,188,1)',
+              pointHighlightFill  : '#fff',
+              pointHighlightStroke: 'rgba(60,141,188,1)',
+              hidden:true,
+              data                : [975,978,979,992,1001]
+            }
+          ,
+          {
+              label               : 'Establecimientos inactivos',
+              backgroundColor     : 'rgba(115, 17, 17, 0.7)',
+              borderColor         : 'rgba(115, 17, 17, 1)',
+              pointColor          : 'rgba(210, 214, 222, 1)',
+              pointStrokeColor    : '#c1c7d1',
+              pointHighlightFill  : '#fff',
+              hidden:true,
+              pointHighlightStroke: 'rgba(220,220,220,1)',
+              data                : [158,161,166,179,181]
+            }
+          ,
+        {
+              label               : 'Establecimientos activos',
+              backgroundColor     : 'RGBA(25,68,107,0.7)',
+              borderColor         : '#671173',
+              pointColor          : 'rgba(210, 214, 222, 1)',
+              pointStrokeColor    : '#c1c7d1',
+              pointHighlightFill  : '#fff',
+              pointHighlightStroke: 'rgba(220,220,220,1)',
+              data                : [794,790,789,789,785],
+            
+            }
+          ]
+          }
+
+        // las opciones de los graficos
+        var lineChartOptions_oferta_total = {
+          elements: {
+        line: {
+            tension: 0.1
+        }
+    },
+          maintainAspectRatio : false,
+          responsive : true,
+          legend: {
+            display: true
+          },
+          scales: {
+            xAxes: [{
+              gridLines : {
+                display : true,
+              }
+            }],
+            yAxes: [{
+              gridLines : {
+                display : true,
+              }
+            }]
+          }
+        }
+        var lineChartOptions_totales = {
+          maintainAspectRatio : false,
+          responsive : true,
+         
+          legend: {
+            display: 'bottom'
+          },
+          scales: {
+            xAxes: [{
+              gridLines : {
+                display : true,
+              }
+            }],
+            yAxes: [{
+              gridLines : {
+                display : true,
+              }
+            }]
+          }
+        }
+        //iniciar los graficos
+        var lineChart_total = new Chart(lineChartCanvas_totales, {
+          type: 'line',
+          data: lineChartData_evolucion,
+          options: lineChartOptions_totales
+        })
+ 
+       
+
+        var lineChart_activos = new Chart(lineChartCanvas_activos, {
+          type: 'line',
+          data: lineChartData_evolucion_activos,
+          options: lineChartOptions_totales
+        })
+        
+        var lineChart_oferta_total = new Chart(lineChartCanvas_oferta_total, {
+          type: 'line',
+          data: lineChartData_oferta_total,
+          options: lineChartOptions_oferta_total
+        })
+    
+        
+      })
+    </script>
+{% endblock %}

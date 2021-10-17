@@ -1,0 +1,525 @@
+{% extends '../../../index.html' %} 
+{% block contenido%}
+<div class="content-wrapper">
+  <!-- Content Header (Page header) -->
+  <div class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1 class="m-0">Evolución del directorio</h1>
+        </div>
+        <!-- /.col -->
+
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+  </div>
+  <!-- /.content-header -->
+
+  <!-- Main content -->
+  <section class="content">
+    <div class="container-fluid">
+      <!-- Small boxes (Stat box) -->
+      <div class="row">
+        
+      
+        <!-- ./col -->
+        <div class="col-lg-6 col-12">
+          <!-- small box -->
+          <div class="small-box bg-white">
+            <div class="inner">
+              <h3>Estab. activos</h3>
+              <canvas id="evolucion_activos" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+            </div>
+          </div>
+        </div>
+        <!-- ./col -->
+
+        <div class="col-lg-6 col-12">
+          <!-- small box -->
+          <div class="small-box bg-white">
+            <div class="inner">
+              <h3>Dependencia</h3>
+              <canvas id="evolucion_por_depe" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+            </div>
+          </div>
+        </div>
+          <!-- ./col -->
+      
+        <div class="col-lg-12 col-12">
+          <!-- small box -->
+          <div class="small-box bg-white">
+            <div class="inner">
+              <h3>Evolución por comuna</h3>
+              <canvas id="evolucion_comunas" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+            </div>
+          </div>
+        </div>
+        <!-- ./col -->
+        
+        <div class="col-lg-6 col-12">
+          <!-- small box -->
+          <div class="small-box bg-white">
+            <div class="inner">
+              <h3>Urbanidad</h3>
+              <canvas id="evolucion_urbano" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+            </div>
+          </div>
+        </div>
+
+     
+      </div>
+
+    </div>
+    <!-- /.container-fluid -->
+  </section>
+  <!-- /.content -->
+</div>
+
+{% endblock %} {% block extra_script %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-datalabels/1.0.0/chartjs-plugin-datalabels.min.js" integrity="sha512-XulchVN83YTvsOaBGjLeApZuasKd8F4ZZ28/aMHevKjzrrjG0lor+T4VU248fWYMNki3Eimk+uwdlQS+uZmu8g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+      
+      $(function () {
+
+        // iniciar canvas
+     
+        var canvas_evolucion_activos = $('#evolucion_activos').get(0).getContext('2d')
+        var canvas_evolucion_comunas = $('#evolucion_comunas').get(0).getContext('2d')
+        var canvas_evolucion_urbano = $('#evolucion_urbano').get(0).getContext('2d')
+
+        var canvas_evolucion_por_depe = $('#evolucion_por_depe').get(0).getContext('2d')
+
+    
+       
+    
+        var data_2 = {
+          labels  : ['2016', '2017', '2018', '2019', '2020'],
+          datasets: [
+            {
+              label               : 'Establecimientos totales',
+              backgroundColor     : 'rgba(60,141,188,0.7)',
+              borderColor         : 'rgba(60,141,188,0.8)',
+              pointColor          : '#3b8bba',
+              pointStrokeColor    : 'rgba(60,141,188,1)',
+              pointHighlightFill  : '#fff',
+              pointHighlightStroke: 'rgba(60,141,188,1)',
+              hidden:true,
+              data                : [975,978,979,992,1001]
+            },
+            {
+              label               : 'Establecimientos inactivos',
+              backgroundColor     : 'rgba(115, 17, 17, 0.7)',
+              borderColor         : 'rgba(115, 17, 17, 1)',
+              pointColor          : 'rgba(210, 214, 222, 1)',
+              pointStrokeColor    : '#c1c7d1',
+              pointHighlightFill  : '#fff',
+              pointHighlightStroke: 'rgba(220,220,220,1)',
+              hidden:true,
+              data                : [158,161,166,179,181]
+            },
+            {
+              label               : 'Establecimientos activos',
+              backgroundColor     : 'RGBA(25,68,107,0.7)',
+              borderColor         : '#671173',
+              pointColor          : 'rgba(210, 214, 222, 1)',
+              pointStrokeColor    : '#c1c7d1',
+              pointHighlightFill  : '#fff',
+              pointHighlightStroke: 'rgba(220,220,220,1)',
+              
+              data                : [794,790,789,789,785]
+            },
+            {
+              label               : 'Establecimientos en receso',
+              hidden:true,
+              backgroundColor     : 'rgba(240, 164, 96, 0.7)',
+              borderColor         :'rgba(240, 164, 96, 0.8)',
+              pointColor          : 'rgba(210, 214, 222, 1)',
+              pointStrokeColor    : '#c1c7d1',
+              pointHighlightFill  : '#fff',
+              pointHighlightStroke: 'rgba(220,220,220,1)',
+              
+              data                : [23,27,26,30,35]
+            },
+          ]
+        }
+
+        var data_comunas = {
+          labels  : [
+            {% for comuna in comunas %}
+            '{{comuna}}',
+            {% endfor %}
+            
+          ],
+          datasets: [
+            {
+              label               : '2016',
+              backgroundColor     : '#1e8feb',
+              
+              borderColor         : 'rgba(60,141,188,0.8)',
+              pointColor          : '#3b8bba',
+              pointStrokeColor    : 'rgba(60,141,188,1)',
+              pointHighlightFill  : '#fff',
+              pointHighlightStroke: 'rgba(60,141,188,1)',
+              
+              data                : [
+                {% for dato in data_2016 %}
+                {{dato}},
+                {% endfor %}
+                ]
+            },
+            {
+              label               : '2017',
+              backgroundColor     : '#1881db',
+              
+              borderColor         : 'rgba(60,141,188,0.8)',
+              pointColor          : '#3b8bba',
+              pointStrokeColor    : 'rgba(60,141,188,1)',
+              pointHighlightFill  : '#fff',
+              pointHighlightStroke: 'rgba(60,141,188,1)',
+              hidden:true,
+              data                : [
+                {% for dato in data_2017 %}
+                {{dato}},
+                {% endfor %}
+                ]
+            },
+            {
+              label               : '2018',
+              backgroundColor     : '#1173cb',
+              borderColor         : 'rgba(60,141,188,0.8)',
+              pointColor          : '#3b8bba',
+              pointStrokeColor    : 'rgba(60,141,188,1)',
+              pointHighlightFill  : '#fff',
+              pointHighlightStroke: 'rgba(60,141,188,1)',
+              hidden:true,
+              data                : [
+                {% for dato in data_2018 %}
+                {{dato}},
+                {% endfor %}
+                ]
+            },
+            {
+              label               : '2019',
+              
+              backgroundColor     : '#0965bb',
+              borderColor         : 'rgba(60,141,188,0.8)',
+              pointColor          : '#3b8bba',
+              pointStrokeColor    : 'rgba(60,141,188,1)',
+              pointHighlightFill  : '#fff',
+              pointHighlightStroke: 'rgba(60,141,188,1)',
+              hidden:true,
+              data                : [
+                {% for dato in data_2019 %}
+                {{dato}},
+                {% endfor %}
+                ]
+            },
+            {
+              label               : '2020',
+              backgroundColor     : '#0058ac',
+              borderColor         : 'rgba(60,141,188,0.8)',
+              pointColor          : '#3b8bba',
+              pointStrokeColor    : 'rgba(60,141,188,1)',
+              pointHighlightFill  : '#fff',
+              pointHighlightStroke: 'rgba(60,141,188,1)',
+            
+              data                : [
+                {% for dato in data_2020 %}
+                {{dato}},
+                {% endfor %}
+                ]
+            },
+           
+          ]
+        }
+
+        var data_urbano = {
+          labels  : [
+          'urbano', 'rural'
+            
+          ],
+          datasets: [
+            {
+              label               : '2016',
+              backgroundColor     : ['rgba(115, 17, 17, 0.7)', 'RGBA(25,68,107,0.7)' ],
+              
+              borderColor         : 'rgba(60,141,188,0.8)',
+              pointColor          : '#3b8bba',
+              pointStrokeColor    : 'rgba(60,141,188,1)',
+              pointHighlightFill  : '#fff',
+              pointHighlightStroke: 'rgba(60,141,188,1)',
+              
+              data                : [
+                {% for dato in urbanos_2016 %}
+                {{dato}},
+                {% endfor %}
+                ]
+            },
+            {
+              label               : '2017',
+              backgroundColor     :['rgba(115, 17, 17, 0.7)', 'RGBA(25,68,107,0.7)' ],
+              
+              borderColor         : 'rgba(60,141,188,0.8)',
+              pointColor          : '#3b8bba',
+              pointStrokeColor    : 'rgba(60,141,188,1)',
+              pointHighlightFill  : '#fff',
+              pointHighlightStroke: 'rgba(60,141,188,1)',
+              hidden:true,
+              data                : [
+                {% for dato in urbanos_2017 %}
+                {{dato}},
+                {% endfor %}
+                ]
+            },
+            {
+              label               : '2018',
+              backgroundColor     :['rgba(115, 17, 17, 0.7)', 'RGBA(25,68,107,0.7)' ],
+              borderColor         : 'rgba(60,141,188,0.8)',
+              pointColor          : '#3b8bba',
+              pointStrokeColor    : 'rgba(60,141,188,1)',
+              pointHighlightFill  : '#fff',
+              pointHighlightStroke: 'rgba(60,141,188,1)',
+              hidden:true,
+              data                : [
+                {% for dato in urbanos_2018 %}
+                {{dato}},
+                {% endfor %}
+                ]
+            },
+            {
+              label               : '2019',
+              
+              backgroundColor     : ['rgba(115, 17, 17, 0.7)', 'RGBA(25,68,107,0.7)' ],
+              borderColor         : 'rgba(60,141,188,0.8)',
+              pointColor          : '#3b8bba',
+              pointStrokeColor    : 'rgba(60,141,188,1)',
+              pointHighlightFill  : '#fff',
+              pointHighlightStroke: 'rgba(60,141,188,1)',
+              hidden:true,
+              data                : [
+                {% for dato in urbanos_2019 %}
+                {{dato}},
+                {% endfor %}
+                ]
+            },
+            {
+              label               : '2020',
+              backgroundColor     : ['rgba(115, 17, 17, 0.7)', 'RGBA(25,68,107,0.7)' ],              borderColor         : 'rgba(60,141,188,0.8)',
+              pointColor          : '#3b8bba',
+              pointStrokeColor    : 'rgba(60,141,188,1)',
+              pointHighlightFill  : '#fff',
+              pointHighlightStroke: 'rgba(60,141,188,1)',
+            
+              data                : [
+                {% for dato in urbanos_2020 %}
+                {{dato}},
+                {% endfor %}
+                ]
+            },
+           
+          ]
+        }
+
+        var data_evolucion_por_depe = {
+          labels  : [
+          'ADM. DELEGADA', 'P. PAGAD','MUNICIPAL','P. SUBVENCIONADO', 'SERVICIO LOCAL'
+            
+          ],
+          datasets: [
+            {
+              label               : '2016',
+              backgroundColor     : ['rgba(60,141,188,0.7)','rgba(240, 164, 96, 1)', 'RGBA(25,68,107,0.7)','rgba(240, 164, 96, 0.7)' , 'rgba(115, 17, 17, 0.7)'],
+              
+              borderColor         : 'rgba(60,141,188,0.8)',
+              pointColor          : '#3b8bba',
+              pointStrokeColor    : 'rgba(60,141,188,1)',
+              pointHighlightFill  : '#fff',
+              pointHighlightStroke: 'rgba(60,141,188,1)',
+              
+              data                : [
+                {% for dato in por_depe_2016 %}
+                {{dato}},
+                {% endfor %} 0
+                ]
+            },
+            {
+              label               : '2017',
+              backgroundColor     : ['rgba(60,141,188,0.7)','rgba(240, 164, 96, 1)', 'RGBA(25,68,107,0.7)','rgba(240, 164, 96, 0.7)' , 'rgba(115, 17, 17, 0.7)'],
+              
+              borderColor         : 'rgba(60,141,188,0.8)',
+              pointColor          : '#3b8bba',
+              pointStrokeColor    : 'rgba(60,141,188,1)',
+              pointHighlightFill  : '#fff',
+              pointHighlightStroke: 'rgba(60,141,188,1)',
+              hidden:true,
+              data                : [
+                {% for dato in por_depe_2017 %}
+                {{dato}},
+                {% endfor %} 0
+                ]
+            },
+            {
+              label               : '2018',
+             backgroundColor     : ['rgba(60,141,188,0.7)','rgba(240, 164, 96, 1)', 'RGBA(25,68,107,0.7)','rgba(240, 164, 96, 0.7)' , 'rgba(115, 17, 17, 0.7)'],
+              borderColor         : 'rgba(60,141,188,0.8)',
+              pointColor          : '#3b8bba',
+              pointStrokeColor    : 'rgba(60,141,188,1)',
+              pointHighlightFill  : '#fff',
+              pointHighlightStroke: 'rgba(60,141,188,1)',
+              hidden:true,
+              data                : [
+                {% for dato in por_depe_2018 %}
+                {{dato}},
+                {% endfor %} 50
+                ]
+            },
+            {
+              label               : '2019',
+              
+              backgroundColor     : ['rgba(60,141,188,0.7)','rgba(240, 164, 96, 1)', 'RGBA(25,68,107,0.7)','rgba(240, 164, 96, 0.7)' , 'rgba(115, 17, 17, 0.7)'],
+              borderColor         : 'rgba(60,141,188,0.8)',
+              pointColor          : '#3b8bba',
+              pointStrokeColor    : 'rgba(60,141,188,1)',
+              pointHighlightFill  : '#fff',
+              pointHighlightStroke: 'rgba(60,141,188,1)',
+              hidden:true,
+              data                : [
+                {% for dato in por_depe_2019 %}
+                {{dato}},
+                {% endfor %} 50
+                ]
+            },
+            {
+              label               : '2020',
+              backgroundColor     : ['rgba(60,141,188,0.7)','rgba(240, 164, 96, 1)', 'RGBA(25,68,107,0.7)','rgba(240, 164, 96, 0.7)' , 'rgba(115, 17, 17, 0.7)'],
+              borderColor         : 'rgba(60,141,188,0.8)',
+              pointColor          : '#3b8bba',
+              pointStrokeColor    : 'rgba(60,141,188,1)',
+              pointHighlightFill  : '#fff',
+              pointHighlightStroke: 'rgba(60,141,188,1)',
+            
+              data                : [
+                {% for dato in por_depe_2020 %}
+                {{dato}},
+                {% endfor %} 52
+                ]
+            },
+           
+          ]
+        }
+        
+        
+        var options = {
+           maintainAspectRatio : false,
+           responsive : true,
+           legend: {
+             display: true
+           },
+           scales: {
+             xAxes: [{
+               gridLines : {
+                 display : true,
+               }
+             }],
+             yAxes: [{
+               gridLines : {
+                 display : true,
+               }
+             }]
+           }
+         }
+
+         var options_comunas = {
+          plugins: {
+      // Change options for ALL labels of THIS CHART
+      datalabels: {
+        color: '#fff'
+      }
+    },
+           maintainAspectRatio : false,
+           responsive : true,
+           legend: {
+             display: true
+           },
+           scales: {
+             xAxes: [{
+               gridLines : {
+                 display : true,
+               }
+             }],
+             yAxes: [{
+               gridLines : {
+                 display : true,
+               }
+             }]
+           }
+         }
+
+         var options_urbano = {
+          plugins: {
+      // Change options for ALL labels of THIS CHART
+      datalabels: {
+        color: '#fff'
+      }
+    },
+           maintainAspectRatio : false,
+           responsive : true,
+           legend: {
+             display: true
+           },
+           scales: {
+             xAxes: [{
+               gridLines : {
+                 display : true,
+               }
+             }],
+             yAxes: [{
+               ticks:{min:0},
+               gridLines : {
+                 display : true,
+               }
+             }]
+           }
+         }
+       //
+       //
+       //
+       //INICIAR LOS GRAFICOS
+       var bar_evolucion_por_depe= new Chart(canvas_evolucion_por_depe, {
+          plugins:[ChartDataLabels],
+           type: 'bar',
+           data: data_evolucion_por_depe,
+           options: options_urbano,
+           
+         })
+
+       
+
+         var line_evolucion_activos= new Chart(canvas_evolucion_activos, {
+           type: 'line',
+           data: data_2,
+           options: options
+         })
+
+         var bar_evolucion_comunas= new Chart(canvas_evolucion_comunas, {
+          plugins:[ChartDataLabels],
+           type: 'bar',
+           data: data_comunas,
+           options: options_comunas,
+           
+         })
+
+         var bar_evolucion_urbano= new Chart(canvas_evolucion_urbano, {
+          plugins:[ChartDataLabels],
+           type: 'bar',
+           data: data_urbano,
+           options: options_urbano,
+           
+         })
+        
+      })
+    </script>
+{% endblock %}
